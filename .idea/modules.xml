@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/booking/booking.iml" filepath="$PROJECT_DIR$/booking/booking.iml" />
       <module fileurl="file://$PROJECT_DIR$/car/car.iml" filepath="$PROJECT_DIR$/car/car.iml" />
+      <module fileurl="file://$PROJECT_DIR$/backend/car-service/car-service.iml" filepath="$PROJECT_DIR$/backend/car-service/car-service.iml" />
       <module fileurl="file://$PROJECT_DIR$/payment/payment.iml" filepath="$PROJECT_DIR$/payment/payment.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/rental-microservices.iml" filepath="$PROJECT_DIR$/.idea/rental-microservices.iml" />
       <module fileurl="file://$PROJECT_DIR$/user/user.iml" filepath="$PROJECT_DIR$/user/user.iml" />

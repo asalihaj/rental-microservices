@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="booking" />
         <module name="payment" />
+        <module name="car-service" />
         <module name="car" />
         <module name="user" />
       </profile>
@@ -15,6 +16,7 @@
     <bytecodeTargetLevel>
       <module name="booking" target="11" />
       <module name="car" target="11" />
+      <module name="car-service" target="11" />
       <module name="payment" target="11" />
       <module name="user" target="11" />
     </bytecodeTargetLevel>
@@ -23,6 +25,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="booking" options="-parameters" />
       <module name="car" options="-parameters" />
+      <module name="car-service" options="-parameters" />
       <module name="payment" options="-parameters" />
       <module name="user" options="-parameters" />
     </option>
