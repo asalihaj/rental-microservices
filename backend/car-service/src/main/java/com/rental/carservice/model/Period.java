@@ -1,5 +1,6 @@
 package com.rental.carservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,20 +18,21 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"groups"})
 public class Period {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    @Column
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
+    private short startDay;
     @Column
-    private OffsetDateTime startDate;
-    @Column
-    private OffsetDateTime endDate;
-    @Column
+    private short endDay;
+    @Column(nullable = false)
     private int changeValue;
-    @Column
+    @Column(nullable = false)
     private boolean isFixed;
     @Column
     private OffsetDateTime lastUpdated;

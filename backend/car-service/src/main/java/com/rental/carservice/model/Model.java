@@ -1,5 +1,6 @@
 package com.rental.carservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIgnoreProperties({"cars"})
 public class Model {
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -31,5 +33,5 @@ public class Model {
     @JoinColumn(name = "brand_id", nullable = false)
     private Brand brand;
     @OneToMany(mappedBy = "model")
-    private Set<Car> car;
+    private Set<Car> cars;
 }

@@ -34,17 +34,15 @@ public class Car {
     @Column
     private String plateNumber;
     @Column
-    private short status;
-    @Column
     private OffsetDateTime dateCreated;
     @Column
     private OffsetDateTime lastUpdated;
 
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY)
     private Set<Report> reports;
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY)
     private Set<Photo> photos;
-    @OneToMany(mappedBy = "car")
+    @OneToMany(mappedBy = "car", fetch = FetchType.LAZY)
     private Set<Review> reviews;
 
     @ManyToOne
@@ -53,7 +51,7 @@ public class Car {
     @ManyToOne
     @JoinColumn(name = "group_id", nullable = false)
     private Group group;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
     @ManyToOne
@@ -65,6 +63,9 @@ public class Car {
     @ManyToOne
     @JoinColumn(name = "color_id", nullable = false)
     private Color color;
+    @ManyToOne
+    @JoinColumn(name = "status_id", nullable = false)
+    private Status status;
 
     @ManyToMany
     @JoinTable(
