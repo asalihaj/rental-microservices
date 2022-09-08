@@ -27,6 +27,10 @@ public class Season {
     @Column
     private String description;
     @Column
+    private OffsetDateTime startDate;
+    @Column
+    private OffsetDateTime endDate;
+    @Column
     private int changeValue;
     @Column
     private boolean isFixed;

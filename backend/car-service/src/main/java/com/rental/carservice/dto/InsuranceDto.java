@@ -12,10 +12,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InsuranceDto {
-    private UUID id;
     private String name;
     private int coverValue;
     private BigDecimal price;
     private boolean isFixed;
-    private OffsetDateTime lastUpdated;
 }
