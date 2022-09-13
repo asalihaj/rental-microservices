@@ -2,7 +2,10 @@ package com.rental.carservice.dto;
 
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class BrandDto {
-    private String brand;
+    private UUID id;
+    private String name;
 }

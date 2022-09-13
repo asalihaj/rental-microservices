@@ -15,4 +15,5 @@ public class StaticDataMapper {
     private final ModelMapper modelMapper;
     private final FuelTypeMapper fuelTypeMapper;
     private final UtilityMapper utilityMapper;
+    private final BrandMapper brandMapper;
 }

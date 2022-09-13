@@ -2,7 +2,11 @@ package com.rental.carservice.dto;
 
 import lombok.*;
 
+import java.util.UUID;
+
 @Data
-public class ModelDto extends BrandDto {
-    private String model;
+public class ModelDto {
+    private UUID id;
+    private String brand;
+    private String name;
 }

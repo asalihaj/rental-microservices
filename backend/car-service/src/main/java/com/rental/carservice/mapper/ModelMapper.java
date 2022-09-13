@@ -11,7 +11,4 @@ import org.mapstruct.Mapping;
 public interface ModelMapper {
     @Mapping(source = "brand.name", target = "brand")
     ModelDto toDto(Model model);
-
-    @Mapping(source = "name", target = "brand")
-    BrandDto toDto(Brand brand);
 }

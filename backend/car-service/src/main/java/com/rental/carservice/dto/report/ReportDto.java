@@ -6,7 +6,7 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Data
-public class ReportDto extends ReportCreationDto {
+public class ReportDto {
     private UUID id;
     private String message;
     private String company;

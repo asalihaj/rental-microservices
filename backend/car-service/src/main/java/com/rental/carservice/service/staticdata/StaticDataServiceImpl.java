@@ -39,13 +39,13 @@ public class StaticDataServiceImpl implements StaticDataService {
     @Override
     public List<BrandDto> getBrands() {
         return brandRepository.findAll().stream()
-                .map(brand -> dataMapper.getModelMapper().toDto(brand))
+                .map(brand -> dataMapper.getBrandMapper().toDto(brand))
                 .collect(Collectors.toList());
     }
 
     @Override
     public List<ModelDto> getModels(UUID brandId) {
-        return modelRepository.findAll().stream()
+        return modelRepository.findModelsByBrandId(brandId).stream()
                 .map(model -> dataMapper.getModelMapper().toDto(model))
                 .collect(Collectors.toList());
     }

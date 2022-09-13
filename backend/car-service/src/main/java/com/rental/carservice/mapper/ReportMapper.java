@@ -1,6 +1,5 @@
 package com.rental.carservice.mapper;
 
-import com.rental.carservice.dto.report.ReportCreationDto;
 import com.rental.carservice.dto.report.ReportDto;
 import com.rental.carservice.model.Report;
 import org.mapstruct.Mapper;
@@ -12,5 +11,5 @@ public interface ReportMapper {
     @Mapping(source = "car.user.username", target = "company")
     @Mapping(source = "user.username", target = "userReport")
     @Mapping(source = "reportCategory.name", target = "category")
-    ReportDto toViewDto(Report report);
+    ReportDto toDto(Report report);
 }

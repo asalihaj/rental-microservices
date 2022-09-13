@@ -48,9 +48,9 @@ public class CarServiceImpl implements CarService {
         List<CarOfferDto> cars = new ArrayList<>();
         for (Car car : carsData) {
             if (car.getStatus().getName().equals("active")) {
-                CarOfferDto carRangeDto = carMapper.toRangeDto(carMapper.toDto(car));
-                carRangeDto.setTotalPrice(PriceCalculator.calculateTotalAmount(car, rentalDate, returnDate));
-                cars.add(carRangeDto);
+                CarOfferDto carOfferDto = carMapper.toRangeDto(carMapper.toDto(car));
+                carOfferDto.setTotalPrice(PriceCalculator.calculateTotalAmount(car, rentalDate, returnDate));
+                cars.add(carOfferDto);
             }
         }
         return cars;
