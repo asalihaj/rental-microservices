@@ -1,6 +1,6 @@
 package com.rental.carservice.mapper;
 
-import com.rental.carservice.dto.EquipmentDto;
+import com.rental.carservice.dto.equipment.EquipmentDto;
 import com.rental.carservice.model.Equipment;
 import org.mapstruct.Mapper;
 

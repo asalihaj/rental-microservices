@@ -3,7 +3,6 @@ package com.rental.carservice.dto;
 import lombok.*;
 
 @Data
-public class ModelDto {
-    private String brand;
-    private String name;
+public class ModelDto extends BrandDto {
+    private String model;
 }

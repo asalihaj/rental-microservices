@@ -1,15 +1,15 @@
-package com.rental.carservice.dto;
+package com.rental.carservice.dto.group;
 
+import com.rental.carservice.dto.PeriodDto;
+import com.rental.carservice.dto.SeasonDto;
 import lombok.Data;
 
-import java.time.OffsetDateTime;
 import java.util.Set;
 
 @Data
 public class GroupDto {
     private String name;
-    private OffsetDateTime lastUpdated;
-    private Set<EquipmentDto> equipments;
+    private String description;
     private Set<SeasonDto> seasons;
     private Set<PeriodDto> periods;
 }

@@ -1,4 +1,4 @@
-package com.rental.carservice.dto;
+package com.rental.carservice.dto.equipment;
 
 import lombok.Data;
 
@@ -8,6 +8,6 @@ import java.math.BigDecimal;
 public class EquipmentDto {
     private String name;
     private BigDecimal price;
-    private int maxPerOrder;
-    private boolean isFixed;
+    private Integer maxPerOrder;
+    private Boolean isFixed;
 }

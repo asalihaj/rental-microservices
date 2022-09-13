@@ -1,8 +1,8 @@
 package com.rental.carservice.controller;
 
-import com.rental.carservice.dto.GroupDto;
-import com.rental.carservice.model.Group;
-import com.rental.carservice.service.GroupService;
+import com.rental.carservice.dto.group.GroupCreationDto;
+import com.rental.carservice.dto.group.GroupDto;
+import com.rental.carservice.service.group.GroupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +22,26 @@ public class GroupController {
         return new ResponseEntity<>(groupService.getAll(), HttpStatus.OK);
     }
 
-    @PutMapping("/transfer/{carId}/to/{groupId}")
+    @PostMapping
+    public ResponseEntity<HttpStatus> create(@RequestBody GroupCreationDto groupDto) {
+        groupService.create(groupDto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<GroupDto> edit(@PathVariable UUID id, @RequestBody GroupDto groupDto) {
+        return new ResponseEntity<>(groupService.edit(id, groupDto), HttpStatus.OK);
+    }
+
+    @PutMapping("/{groupId}/add-car/{carId}")
     public ResponseEntity<HttpStatus> editCarGroup(@PathVariable UUID carId, @PathVariable UUID groupId) {
         groupService.editCarGroup(carId, groupId);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> delete(@PathVariable UUID id) {
+        groupService.delete(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
