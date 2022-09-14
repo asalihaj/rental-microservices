@@ -11,10 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +23,14 @@ public class GroupServiceImpl implements GroupService {
     private final ObjectValidation validation;
 
     @Override
-    public List<GroupDto> getAll() {
-        List<Group> groupsData = groupRepository.findAll();
+    public List<GroupDto> getAll(UUID companyId) {
+        List<Car> cars = carRepository.findAll().stream()
+                .filter(car -> car.getUser().getId().equals(companyId))
+                .collect(Collectors.toList());
+        Set<Group> groupsData = cars.stream()
+                .map(Car::getGroup)
+                .collect(Collectors.toSet());
+
         List<GroupDto> groups = new ArrayList<>();
         for (Group group : groupsData) {
             groups.add(groupMapper.toDto(group));

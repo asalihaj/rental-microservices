@@ -64,16 +64,12 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<CarViewDto> getByCompany(UUID companyId) {
-        Optional<User> company = userRepository.findById(companyId);
-        if (company.isPresent()) {
-            List<Car> cars = carRepository.findByUser(company.get());
-            List<CarViewDto> carsToReturn = new ArrayList<>();
-            for (Car car : cars) {
-                carsToReturn.add(carMapper.toDto(car));
-            }
-            return carsToReturn;
+        List<Car> cars = carRepository.findAllByUserId(companyId);
+        List<CarViewDto> carsToReturn = new ArrayList<>();
+        for (Car car : cars) {
+            carsToReturn.add(carMapper.toDto(car));
         }
-        return null;
+        return carsToReturn;
     }
 
     @Override

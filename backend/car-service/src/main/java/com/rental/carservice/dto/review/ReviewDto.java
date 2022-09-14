@@ -7,6 +7,6 @@ import java.util.UUID;
 @Data
 public class ReviewDto {
     private UUID id;
-    private short stars;
+    private Short stars;
     private String comment;
 }

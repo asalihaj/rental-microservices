@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class InsuranceDto {
     private String name;
-    private int coverValue;
+    private Integer coverValue;
     private BigDecimal price;
-    private boolean isFixed;
+    private Boolean isFixed;
 }

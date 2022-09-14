@@ -9,6 +9,6 @@ import java.util.UUID;
 public interface ReportService {
     List<ReportDto> getAll();
     List<ReportDto> getAll(UUID carId);
-    void create(ReportCreationDto reportDto);
+    ReportDto create(ReportCreationDto reportDto);
     void delete(UUID id);
 }

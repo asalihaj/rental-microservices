@@ -17,9 +17,9 @@ import java.util.UUID;
 public class GroupController {
     private final GroupService groupService;
 
-    @GetMapping
-    public ResponseEntity<List<GroupDto>> getAll() {
-        return new ResponseEntity<>(groupService.getAll(), HttpStatus.OK);
+    @GetMapping("/{companyId}")
+    public ResponseEntity<List<GroupDto>> getAll(@PathVariable UUID companyId) {
+        return new ResponseEntity<>(groupService.getAll(companyId), HttpStatus.OK);
     }
 
     @PostMapping

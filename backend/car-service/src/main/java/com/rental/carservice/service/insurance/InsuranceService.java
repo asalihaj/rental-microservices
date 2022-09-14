@@ -8,6 +8,6 @@ import java.util.UUID;
 public interface InsuranceService {
     List<InsuranceDto> getAll(UUID companyId);
     InsuranceDto create(InsuranceDto insuranceDto);
-    int edit(UUID id, InsuranceDto insuranceDto);
+    InsuranceDto edit(UUID id, InsuranceDto insuranceDto);
     void delete(UUID id);
 }

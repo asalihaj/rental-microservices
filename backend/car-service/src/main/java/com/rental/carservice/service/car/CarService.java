@@ -20,8 +20,8 @@ public interface CarService {
     CarViewDto create(CarCreationDto car);
     CarDetailsDto edit(UUID id, CarBaseDto carBaseDto);
     int addUtility(UUID carId, UUID utilityId);
-    int addInsurance(UUID carId, UUID insuranceId);
     int removeUtility(UUID carId, UUID utilityId);
+    int addInsurance(UUID carId, UUID insuranceId);
     int removeInsurance(UUID carId, UUID insuranceId);
     void deleteById(UUID id);
 }

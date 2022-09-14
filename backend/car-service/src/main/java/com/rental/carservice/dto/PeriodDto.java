@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class PeriodDto {
     private String name;
-    private int startDay;
-    private int endDay;
-    private int changeValue;
-    private boolean isFixed;
+    private Short startDay;
+    private Short endDay;
+    private Integer changeValue;
+    private Boolean isFixed;
 }
