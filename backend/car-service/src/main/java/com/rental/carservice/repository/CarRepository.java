@@ -8,5 +8,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface CarRepository extends JpaRepository<Car, UUID> {
-    List<Car> findAllByUserId(UUID userId);
+    List<Car> findAllByCompanyId(UUID userId);
 }

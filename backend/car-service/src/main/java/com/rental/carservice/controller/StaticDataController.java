@@ -40,7 +40,7 @@ public class StaticDataController {
         return new ResponseEntity<>(dataService.getBrands(), HttpStatus.OK);
     }
 
-    @GetMapping("/{brandId}/models")
+    @GetMapping("/brands/{brandId}/models")
     public ResponseEntity<List<ModelDto>> getModels(@PathVariable UUID brandId) {
         return new ResponseEntity<>(dataService.getModels(brandId), HttpStatus.OK);
     }

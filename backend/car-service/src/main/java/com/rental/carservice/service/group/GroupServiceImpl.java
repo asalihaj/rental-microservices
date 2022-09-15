@@ -4,6 +4,7 @@ import com.rental.carservice.dto.group.GroupCreationDto;
 import com.rental.carservice.dto.group.GroupDto;
 import com.rental.carservice.mapper.GroupMapper;
 import com.rental.carservice.model.Car;
+import com.rental.carservice.model.Equipment;
 import com.rental.carservice.model.Group;
 import com.rental.carservice.repository.*;
 import com.rental.carservice.util.ObjectValidation;
@@ -24,18 +25,10 @@ public class GroupServiceImpl implements GroupService {
 
     @Override
     public List<GroupDto> getAll(UUID companyId) {
-        List<Car> cars = carRepository.findAll().stream()
-                .filter(car -> car.getUser().getId().equals(companyId))
+        return groupRepository
+                .findAllByCompanyId(companyId)
+                .stream().map(groupMapper::toDto)
                 .collect(Collectors.toList());
-        Set<Group> groupsData = cars.stream()
-                .map(Car::getGroup)
-                .collect(Collectors.toSet());
-
-        List<GroupDto> groups = new ArrayList<>();
-        for (Group group : groupsData) {
-            groups.add(groupMapper.toDto(group));
-        }
-        return groups;
     }
 
     @Override
@@ -71,7 +64,12 @@ public class GroupServiceImpl implements GroupService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public int delete(UUID id) {
+        Group group = validation.getEntry(groupRepository.findById(id));
+        if (group == null) {
+            return 404;
+        }
         groupRepository.deleteById(id);
+        return groupRepository.findById(id).isPresent() ? 500 : 204;
     }
 }

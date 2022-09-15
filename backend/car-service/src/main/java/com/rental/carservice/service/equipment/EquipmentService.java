@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.UUID;
 
 public interface EquipmentService {
-    List<EquipmentDto> getAll();
+    List<EquipmentDto> getAllByCompany(UUID companyId);
     EquipmentDto create(EquipmentCreationDto equipmentDto);
     EquipmentDto edit(UUID id, EquipmentDto equipmentDto);
     int addToGroup(UUID equipmentId, UUID groupId);
     int removeFromGroup(UUID equipmentId, UUID groupId);
-    void delete(UUID id);
+    int delete(UUID id);
 }

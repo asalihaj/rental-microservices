@@ -37,6 +37,10 @@ public class Period {
     @Column
     private OffsetDateTime lastUpdated;
 
+    @ManyToOne
+    @JoinColumn(name = "company_id", nullable = true)
+    private User company;
+
     @ManyToMany(mappedBy = "periods")
     private Set<Group> groups;
 }

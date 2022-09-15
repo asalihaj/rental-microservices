@@ -10,5 +10,5 @@ public interface ReportService {
     List<ReportDto> getAll();
     List<ReportDto> getAll(UUID carId);
     ReportDto create(ReportCreationDto reportDto);
-    void delete(UUID id);
+    int delete(UUID id);
 }

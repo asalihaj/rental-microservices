@@ -15,7 +15,7 @@ public class CompanyData {
     private final CarRepository carRepository;
     public List<Car> getCompanyCars(UUID companyId) {
         return carRepository.findAll().stream()
-                .filter(car -> car.getUser().getId().equals(companyId))
+                .filter(car -> car.getCompany().getId().equals(companyId))
                 .collect(Collectors.toList());
     }
 }

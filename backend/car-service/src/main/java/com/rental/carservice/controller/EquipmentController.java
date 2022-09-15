@@ -17,9 +17,9 @@ import java.util.UUID;
 public class EquipmentController {
     private final EquipmentService equipmentService;
 
-    @GetMapping
-    public ResponseEntity<List<EquipmentDto>> getAll() {
-        return new ResponseEntity<>(equipmentService.getAll(), HttpStatus.OK);
+    @GetMapping("/company/{companyId}")
+    public ResponseEntity<List<EquipmentDto>> getAll(@PathVariable UUID companyId) {
+        return new ResponseEntity<>(equipmentService.getAllByCompany(companyId), HttpStatus.OK);
     }
 
     @PostMapping
@@ -46,8 +46,8 @@ public class EquipmentController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable UUID id) {
-        equipmentService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        int code = equipmentService.delete(id);
+        return new ResponseEntity<>(HttpStatus.valueOf(code));
     }
 
 }

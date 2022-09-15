@@ -4,6 +4,7 @@ import com.rental.carservice.dto.review.ReviewCreationDto;
 import com.rental.carservice.dto.review.ReviewDto;
 import com.rental.carservice.mapper.ReviewMapper;
 import com.rental.carservice.model.Car;
+import com.rental.carservice.model.Period;
 import com.rental.carservice.model.Review;
 import com.rental.carservice.model.User;
 import com.rental.carservice.repository.CarRepository;
@@ -36,16 +37,23 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public List<ReviewDto> getAllFromClient(UUID clientId) {
+        return reviewRepository.findAllByClientId(clientId)
+                .stream().map(reviewMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public ReviewDto create(ReviewCreationDto reviewDto) {
         Review review = new Review();
 
         Car car = validation.getEntry(carRepository.findById(reviewDto.getCar()));
-        User user = validation.getEntry(userRepository.findById(reviewDto.getUser()));
+        User user = validation.getEntry(userRepository.findById(reviewDto.getClient()));
 
         review.setStars(reviewDto.getStars());
         review.setComment(reviewDto.getComment());
         review.setCar(car);
-        review.setUser(user);
+        review.setClient(user);
         review.setLastUpdated(OffsetDateTime.now());
 
         return reviewMapper.toDto(reviewRepository.save(review));
@@ -55,8 +63,11 @@ public class ReviewServiceImpl implements ReviewService {
     public ReviewDto edit(UUID id, ReviewDto reviewDto) {
         Optional<Review> reviewData = reviewRepository.findById(id)
                 .map(review -> {
-                    review.setStars(reviewDto.getStars());
-                    review.setComment(reviewDto.getComment());
+                    short stars = validation.setValue(reviewDto.getStars(), review.getStars());
+                    String comment = validation.setValue(reviewDto.getComment(), review.getComment());
+
+                    review.setStars(stars);
+                    review.setComment(comment);
                     return review;
                 });
         return reviewData
@@ -65,7 +76,12 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public int delete(UUID id) {
+        Review review = validation.getEntry(reviewRepository.findById(id));
+        if (review == null) {
+            return 404;
+        }
         reviewRepository.deleteById(id);
+        return reviewRepository.findById(id).isPresent() ? 500 : 204;
     }
 }

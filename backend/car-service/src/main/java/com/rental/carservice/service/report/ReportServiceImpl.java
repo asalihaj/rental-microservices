@@ -3,10 +3,7 @@ package com.rental.carservice.service.report;
 import com.rental.carservice.dto.report.ReportCreationDto;
 import com.rental.carservice.dto.report.ReportDto;
 import com.rental.carservice.mapper.ReportMapper;
-import com.rental.carservice.model.Car;
-import com.rental.carservice.model.Report;
-import com.rental.carservice.model.ReportCategory;
-import com.rental.carservice.model.User;
+import com.rental.carservice.model.*;
 import com.rental.carservice.repository.CarRepository;
 import com.rental.carservice.repository.ReportCategoryRepository;
 import com.rental.carservice.repository.ReportRepository;
@@ -60,7 +57,12 @@ public class ReportServiceImpl implements ReportService {
     }
 
     @Override
-    public void delete(UUID id) {
+    public int delete(UUID id) {
+        Report report = validation.getEntry(reportRepository.findById(id));
+        if (report == null) {
+            return 404;
+        }
         reportRepository.deleteById(id);
+        return reportRepository.findById(id).isPresent() ? 500 : 204;
     }
 }

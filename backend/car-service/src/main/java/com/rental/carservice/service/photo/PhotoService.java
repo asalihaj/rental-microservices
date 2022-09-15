@@ -9,6 +9,6 @@ import java.util.UUID;
 public interface PhotoService {
     List<PhotoDto> getAll(UUID carId);
     PhotoDto create(PhotoCreationDto photoDto);
-    void setMain(UUID photoId, UUID carId);
-    void delete(UUID id);
+    int setMain(UUID photoId);
+    int delete(UUID id);
 }

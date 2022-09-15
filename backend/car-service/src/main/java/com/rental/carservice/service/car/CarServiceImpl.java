@@ -64,7 +64,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<CarViewDto> getByCompany(UUID companyId) {
-        List<Car> cars = carRepository.findAllByUserId(companyId);
+        List<Car> cars = carRepository.findAllByCompanyId(companyId);
         List<CarViewDto> carsToReturn = new ArrayList<>();
         for (Car car : cars) {
             carsToReturn.add(carMapper.toDto(car));
@@ -81,7 +81,7 @@ public class CarServiceImpl implements CarService {
         car.setGroup(groupRepository.findById(carDto.getGroup()).orElseThrow());
         car.setFuelType(fuelTypeRepository.findById(carDto.getFuelType()).orElseThrow());
         car.setStatus(statusRepository.findById(carDto.getStatus()).orElseThrow());
-        car.setUser(userRepository.findById(carDto.getCompany()).orElseThrow());
+        car.setCompany(userRepository.findById(carDto.getCompany()).orElseThrow());
         car.setDoors(carDto.getDoors());
         car.setSeats(carDto.getSeats());
         car.setProdYear(carDto.getProdYear());
@@ -104,8 +104,10 @@ public class CarServiceImpl implements CarService {
                   short doors = validation.setValue(carBaseDto.getDoors(), car.getDoors());
                   BigDecimal rentalRate = validation.setValue(carBaseDto.getRentalRate(), car.getRentalRate());
                   short prodYear = validation.setValue(carBaseDto.getProdYear(), car.getProdYear());
-                  Status status = validation.getEntry(statusRepository.findById(carBaseDto.getStatus()));
-                  Color color = validation.getEntry(colorRepository.findById(carBaseDto.getColor()));
+                  UUID statusId = validation.setValue(carBaseDto.getStatus(), car.getStatus().getId());
+                  Status status = validation.getEntry(statusRepository.findById(statusId));
+                  UUID colorId = validation.setValue(carBaseDto.getColor(), car.getColor().getId());
+                  Color color = validation.getEntry(colorRepository.findById(colorId));
 
                   car.setSeats(seats);
                   car.setDoors(doors);
@@ -128,7 +130,7 @@ public class CarServiceImpl implements CarService {
         if (car != null && utility != null) {
             boolean isAdded = car.getUtilities().add(utility);
             if (!isAdded) {
-                return 410;
+                return 409;
             }
             carRepository.save(car);
             return 204;
@@ -143,7 +145,7 @@ public class CarServiceImpl implements CarService {
         if (car != null && insurance != null) {
             boolean isAdded = car.getInsurances().add(insurance);
             if (!isAdded) {
-                return 410;
+                return 409;
             }
             carRepository.save(car);
             return 204;
@@ -182,7 +184,12 @@ public class CarServiceImpl implements CarService {
     }
 
     @Override
-    public void deleteById(UUID id) {
+    public int deleteById(UUID id) {
+        Car car = validation.getEntry(carRepository.findById(id));
+        if (car == null) {
+            return 404;
+        }
         carRepository.deleteById(id);
+        return carRepository.findById(id).isPresent() ? 500 : 204;
     }
 }

@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class PhotoDto {
     private String file;
-    private boolean isMain;
+    private Boolean isMain;
 }

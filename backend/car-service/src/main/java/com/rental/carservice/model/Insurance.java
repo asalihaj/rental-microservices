@@ -36,6 +36,10 @@ public class Insurance {
     @Column
     private OffsetDateTime lastUpdated;
 
+    @ManyToOne
+    @JoinColumn(name = "company_id", nullable = true)
+    private User company;
+
     @ManyToMany(mappedBy = "insurances")
     private Set<Car> cars;
 }

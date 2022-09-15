@@ -6,9 +6,9 @@ import java.util.UUID;
 
 @Data
 public class ReviewCreationDto {
-    private short stars;
+    private Short stars;
     private String comment;
-    private UUID user;
+    private UUID client;
     private UUID car;
 
 }

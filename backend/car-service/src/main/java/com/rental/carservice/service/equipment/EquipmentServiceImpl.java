@@ -4,21 +4,17 @@ import com.rental.carservice.dto.IdDto;
 import com.rental.carservice.dto.equipment.EquipmentCreationDto;
 import com.rental.carservice.dto.equipment.EquipmentDto;
 import com.rental.carservice.mapper.EquipmentMapper;
-import com.rental.carservice.model.Car;
-import com.rental.carservice.model.Equipment;
-import com.rental.carservice.model.Group;
+import com.rental.carservice.model.*;
 import com.rental.carservice.repository.EquipmentRepository;
 import com.rental.carservice.repository.GroupRepository;
+import com.rental.carservice.repository.UserRepository;
 import com.rental.carservice.util.ObjectValidation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,14 +22,14 @@ import java.util.stream.Collectors;
 public class EquipmentServiceImpl implements EquipmentService {
     private final EquipmentRepository equipmentRepository;
     private final GroupRepository groupRepository;
+    private final UserRepository userRepository;
     private final EquipmentMapper equipmentMapper;
     private final ObjectValidation validation;
 
     @Override
-    public List<EquipmentDto> getAll() {
-        return equipmentRepository
-                .findAll().stream()
-                .map(equipmentMapper::toDto)
+    public List<EquipmentDto> getAllByCompany(UUID companyId) {
+        return equipmentRepository.findAllByCompanyId(companyId)
+                .stream().map(equipmentMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -45,6 +41,8 @@ public class EquipmentServiceImpl implements EquipmentService {
         equipment.setFixed(equipmentDto.getIsFixed());
         List<UUID> groups = equipmentDto.getGroups().stream().map(IdDto::getId).collect(Collectors.toList());
         equipment.setGroups(new HashSet<>(groupRepository.findAllById(groups)));
+        User company = validation.getEntry(userRepository.findById(equipmentDto.getCompany()));
+        equipment.setCompany(company);
         equipment.setMaxPerOrder(equipmentDto.getMaxPerOrder());
         equipment.setLastUpdated(OffsetDateTime.now());
 
@@ -53,7 +51,7 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     public EquipmentDto edit(UUID id, EquipmentDto equipmentDto) {
-        Equipment equipment = new Equipment();
+        Equipment equipment = validation.getEntry(equipmentRepository.findById(id));
         String name = validation.setValue(equipmentDto.getName(), equipment.getName());
         BigDecimal price = validation.setValue(equipmentDto.getPrice(), equipment.getPrice());
         boolean isFixed = validation.setValue(equipmentDto.getIsFixed(), equipment.isFixed());
@@ -70,14 +68,14 @@ public class EquipmentServiceImpl implements EquipmentService {
 
     @Override
     public int addToGroup(UUID equipmentId, UUID groupId) {
-        Optional<Equipment> equipment = equipmentRepository.findById(equipmentId);
-        Optional<Group> group = groupRepository.findById(groupId);
-        if (equipment.isPresent() && group.isPresent()) {
-            boolean isAdded = equipment.get().getGroups().add(group.get());
+        Equipment equipment = validation.getEntry(equipmentRepository.findById(equipmentId));
+        Group group = validation.getEntry(groupRepository.findById(groupId));
+        if (equipment != null && group != null) {
+            boolean isAdded = group.getEquipments().add(equipment);
             if (!isAdded) {
-                return 410;
+                return 409;
             }
-            equipmentRepository.save(equipment.get());
+            groupRepository.save(group);
             return 204;
         }
         return 404;
@@ -88,18 +86,23 @@ public class EquipmentServiceImpl implements EquipmentService {
         Equipment equipment = validation.getEntry(equipmentRepository.findById(equipmentId));
         Group group = validation.getEntry(groupRepository.findById(groupId));
         if (equipment != null && group != null) {
-            boolean isRemoved = equipment.getGroups().remove(group);
+            boolean isRemoved = group.getEquipments().remove(equipment);
             if (!isRemoved) {
                 return 410;
             }
-            equipmentRepository.save(equipment);
+            groupRepository.save(group);
             return 204;
         }
         return 404;
     }
 
     @Override
-    public void delete(UUID id) {
+    public int delete(UUID id) {
+        Equipment equipment = validation.getEntry(equipmentRepository.findById(id));
+        if (equipment == null) {
+            return 404;
+        }
         equipmentRepository.deleteById(id);
+        return equipmentRepository.findById(id).isPresent() ? 500 : 204;
     }
 }

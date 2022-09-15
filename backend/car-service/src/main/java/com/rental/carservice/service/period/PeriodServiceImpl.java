@@ -1,10 +1,8 @@
 package com.rental.carservice.service.period;
 
-import com.rental.carservice.dto.PeriodDto;
+import com.rental.carservice.dto.period.PeriodDto;
 import com.rental.carservice.mapper.PeriodMapper;
-import com.rental.carservice.model.Car;
 import com.rental.carservice.model.Group;
-import com.rental.carservice.model.Insurance;
 import com.rental.carservice.model.Period;
 import com.rental.carservice.repository.GroupRepository;
 import com.rental.carservice.repository.PeriodRepository;
@@ -27,15 +25,8 @@ public class PeriodServiceImpl implements PeriodService {
     private final CompanyData companyData;
     @Override
     public List<PeriodDto> getAll(UUID companyId) {
-        List<Car> cars = companyData.getCompanyCars(companyId);
-        Set<Period> periods = new HashSet<>();
-
-        for (Car car : cars) {
-            periods.addAll(car.getGroup().getPeriods());
-        }
-
-        return periods.stream()
-                .map(periodMapper::toDto)
+        return periodRepository.findAllByCompanyId(companyId)
+                .stream().map(periodMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -79,11 +70,11 @@ public class PeriodServiceImpl implements PeriodService {
         Period period = validation.getEntry(periodRepository.findById(periodId));
         Group group = validation.getEntry(groupRepository.findById(groupId));
         if (period != null && group != null) {
-            boolean isAdded = period.getGroups().add(group);
+            boolean isAdded = group.getPeriods().add(period);
             if (!isAdded) {
-                return 410;
+                return 409;
             }
-            periodRepository.save(period);
+            groupRepository.save(group);
             return 204;
         }
         return 404;
@@ -94,18 +85,23 @@ public class PeriodServiceImpl implements PeriodService {
         Period period = validation.getEntry(periodRepository.findById(periodId));
         Group group = validation.getEntry(groupRepository.findById(groupId));
         if (period != null && group != null) {
-            boolean isRemoved = period.getGroups().remove(group);
+            boolean isRemoved = group.getPeriods().remove(period);
             if (!isRemoved) {
                 return 410;
             }
-            periodRepository.save(period);
+            groupRepository.save(group);
             return 204;
         }
         return 404;
     }
 
     @Override
-    public void delete(UUID id) {
+    public int delete(UUID id) {
+        Period period = validation.getEntry(periodRepository.findById(id));
+        if (period == null) {
+            return 404;
+        }
         periodRepository.deleteById(id);
+        return periodRepository.findById(id).isPresent() ? 500 : 204;
     }
 }

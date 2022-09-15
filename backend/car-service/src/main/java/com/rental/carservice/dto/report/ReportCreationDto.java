@@ -7,7 +7,6 @@ import java.util.UUID;
 
 @Data
 public class ReportCreationDto {
-    private UUID id;
     private String message;
     private UUID user;
     private UUID car;

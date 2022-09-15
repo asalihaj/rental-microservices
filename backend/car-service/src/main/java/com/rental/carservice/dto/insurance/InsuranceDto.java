@@ -1,4 +1,4 @@
-package com.rental.carservice.dto;
+package com.rental.carservice.dto.insurance;
 
 import lombok.*;
 

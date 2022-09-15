@@ -31,10 +31,25 @@ public class User {
     @Column
     private OffsetDateTime lastUpdated;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "company")
     private Set<Car> cars;
+    @OneToMany(mappedBy = "company")
+    private Set<Equipment> equipments;
+    @OneToMany(mappedBy = "company")
+    private Set<Insurance> insurances;
+    @OneToMany(mappedBy = "company")
+    private Set<Group> groups;
+    @OneToMany(mappedBy = "company")
+    private Set<Season> seasons;
+    @OneToMany(mappedBy = "company")
+    private Set<Period> periods;
     @OneToMany(mappedBy = "user")
     private Set<Report> reports;
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "client")
     private Set<Review> reviews;
+
+
+    @ManyToOne
+    @JoinColumn(name = "role_id", nullable = false)
+    private UserRole role;
 }

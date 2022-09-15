@@ -2,9 +2,9 @@ package com.rental.carservice.dto.car;
 
 import com.rental.carservice.dto.*;
 import com.rental.carservice.dto.equipment.EquipmentDto;
+import com.rental.carservice.dto.insurance.InsuranceDto;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.util.Set;
 import java.util.UUID;
 

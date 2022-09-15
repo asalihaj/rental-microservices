@@ -35,14 +35,9 @@ public class CarController {
         return new ResponseEntity<>(carService.getById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/companies/{companyId}")
+    @GetMapping("/company/{companyId}")
     public ResponseEntity<List<CarViewDto>> getCompanyCars(@PathVariable UUID companyId) {
         return new ResponseEntity<>(carService.getByCompany(companyId), HttpStatus.OK);
-    }
-
-    @GetMapping("/colors")
-    public ResponseEntity<List<ColorDto>> getColors() {
-        return new ResponseEntity<>(null);
     }
 
     @PostMapping
@@ -81,7 +76,7 @@ public class CarController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteCar(@PathVariable UUID id) {
-        carService.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        int code = carService.deleteById(id);
+        return new ResponseEntity<>(HttpStatus.valueOf(code));
     }
 }

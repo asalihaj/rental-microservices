@@ -31,8 +31,13 @@ public class Group {
     @Column
     private OffsetDateTime lastUpdated;
 
+    @ManyToOne
+    @JoinColumn(name = "company_id", nullable = true)
+    private User company;
+
     @OneToMany(mappedBy = "group")
     private Set<Car> cars;
+
     @ManyToMany
     @JoinTable(
             name = "equipment_group",

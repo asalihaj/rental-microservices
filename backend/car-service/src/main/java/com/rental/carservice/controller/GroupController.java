@@ -41,7 +41,7 @@ public class GroupController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> delete(@PathVariable UUID id) {
-        groupService.delete(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        int code = groupService.delete(id);
+        return new ResponseEntity<>(HttpStatus.valueOf(code));
     }
 }

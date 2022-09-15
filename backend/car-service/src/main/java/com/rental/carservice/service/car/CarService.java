@@ -23,5 +23,5 @@ public interface CarService {
     int removeUtility(UUID carId, UUID utilityId);
     int addInsurance(UUID carId, UUID insuranceId);
     int removeInsurance(UUID carId, UUID insuranceId);
-    void deleteById(UUID id);
+    int deleteById(UUID id);
 }

@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ReportMapper {
 
-    @Mapping(source = "car.user.username", target = "company")
+    @Mapping(source = "car.company.username", target = "company")
     @Mapping(source = "user.username", target = "userReport")
     @Mapping(source = "reportCategory.name", target = "category")
     ReportDto toDto(Report report);

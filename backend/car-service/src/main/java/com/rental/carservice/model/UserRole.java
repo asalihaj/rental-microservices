@@ -1,5 +1,6 @@
 package com.rental.carservice.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,35 +13,23 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name= "season")
+@Table(name= "user_role")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Season {
+public class UserRole {
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "org.hibernate.id.UUIDGenerator")
     private UUID id;
-    @Column
+
+    @Column(nullable = false)
     private String name;
-    @Column
-    private String description;
-    @Column
-    private OffsetDateTime startDate;
-    @Column
-    private OffsetDateTime endDate;
-    @Column
-    private int changeValue;
-    @Column
-    private boolean isFixed;
-    @Column
+
+    @Column(nullable = false)
     private OffsetDateTime lastUpdated;
 
-    @ManyToOne
-    @JoinColumn(name = "company_id", nullable = true)
-    private User company;
-
-    @ManyToMany(mappedBy = "seasons")
-    private Set<Group> groups;
+    @OneToMany(mappedBy = "role")
+    private Set<User> users;
 }

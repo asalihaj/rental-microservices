@@ -4,6 +4,7 @@ import com.rental.carservice.dto.photo.PhotoCreationDto;
 import com.rental.carservice.dto.photo.PhotoDto;
 import com.rental.carservice.mapper.PhotoMapper;
 import com.rental.carservice.model.Car;
+import com.rental.carservice.model.Period;
 import com.rental.carservice.model.Photo;
 import com.rental.carservice.repository.CarRepository;
 import com.rental.carservice.repository.PhotoRepository;
@@ -46,25 +47,46 @@ public class PhotoServiceImpl implements PhotoService {
         Photo photo = new Photo();
         Car car = validation.getEntry(carRepository.findById(photoDto.getCar()));
         photo.setCar(car);
-        photo.setMain(photoDto.isMain());
+        photo.setMain(photoDto.getIsMain());
         photo.setFile(photoDto.getFile());
         photo.setLastUpdated(OffsetDateTime.now());
+
+        if (photoDto.getIsMain()) {
+            List<Photo> photos = photoRepository.findAllByCarId(photoDto.getCar());
+            for (Photo p : photos) {
+                p.setMain(false);
+            }
+            photoRepository.saveAll(photos);
+        }
 
         return photoMapper.toDto(photoRepository.save(photo));
     }
 
     @Override
-    public void setMain(UUID photoId, UUID carId) {
-        List<Photo> photos = photoRepository.findAllByCarId(carId);
+    public int setMain(UUID photoId) {
+        Photo photo = validation.getEntry(photoRepository.findById(photoId));
+        if (photo == null) {
+            return 404;
+        }
+        if (photo.isMain()) {
+            return 409;
+        }
+        List<Photo> photos = photoRepository.findAllByCarId(photo.getCar().getId());
         for (Photo p : photos) {
             p.setMain(p.getId().equals(photoId));
         }
 
         photoRepository.saveAll(photos);
+        return 204;
     }
 
     @Override
-    public void delete(UUID id) {
+    public int delete(UUID id) {
+        Photo photo = validation.getEntry(photoRepository.findById(id));
+        if (photo == null) {
+            return 404;
+        }
         photoRepository.deleteById(id);
+        return photoRepository.findById(id).isPresent() ? 500 : 204;
     }
 }

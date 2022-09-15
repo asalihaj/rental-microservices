@@ -52,8 +52,8 @@ public class Car {
     @JoinColumn(name = "group_id", nullable = false)
     private Group group;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @JoinColumn(name = "company_id")
+    private User company;
     @ManyToOne
     @JoinColumn(name = "model_id", nullable = false)
     private Model model;

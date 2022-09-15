@@ -1,7 +1,7 @@
 package com.rental.carservice.dto.group;
 
-import com.rental.carservice.dto.PeriodDto;
-import com.rental.carservice.dto.SeasonDto;
+import com.rental.carservice.dto.period.PeriodDto;
+import com.rental.carservice.dto.season.SeasonDto;
 import lombok.Data;
 
 import java.util.Set;

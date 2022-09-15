@@ -1,6 +1,6 @@
 package com.rental.carservice.service.period;
 
-import com.rental.carservice.dto.PeriodDto;
+import com.rental.carservice.dto.period.PeriodDto;
 
 import java.util.List;
 import java.util.UUID;
@@ -11,5 +11,5 @@ public interface PeriodService {
     PeriodDto edit(UUID id, PeriodDto periodDto);
     int addToGroup(UUID periodId, UUID groupId);
     int removeFromGroup(UUID periodId, UUID groupId);
-    void delete(UUID id);
+    int delete(UUID id);
 }

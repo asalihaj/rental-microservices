@@ -12,5 +12,5 @@ public interface GroupService {
     GroupDto create(GroupCreationDto groupDto);
     GroupDto edit(UUID id, GroupDto groupDto);
     void editCarGroup(UUID carId, UUID groupId);
-    void delete(UUID id);
+    int delete(UUID id);
 }

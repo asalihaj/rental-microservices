@@ -1,8 +1,7 @@
 package com.rental.carservice.service.insurance;
 
-import com.rental.carservice.dto.InsuranceDto;
+import com.rental.carservice.dto.insurance.InsuranceDto;
 import com.rental.carservice.mapper.InsuranceMapper;
-import com.rental.carservice.model.Car;
 import com.rental.carservice.model.Insurance;
 import com.rental.carservice.repository.InsuranceRepository;
 import com.rental.carservice.util.CompanyData;
@@ -24,15 +23,8 @@ public class InsuranceServiceImpl implements InsuranceService {
     private final ObjectValidation validation;
     @Override
     public List<InsuranceDto> getAll(UUID companyId) {
-        List<Car> cars = companyData.getCompanyCars(companyId);
-        Set<Insurance> insurances = new HashSet<>();
-
-        for (Car car : cars) {
-            insurances.addAll(car.getInsurances());
-        }
-
-        return insurances.stream()
-                .map(insuranceMapper::toDto)
+        return insuranceRepository.findAllByCompanyId(companyId)
+                .stream().map(insuranceMapper::toDto)
                 .collect(Collectors.toList());
     }
 
@@ -63,13 +55,18 @@ public class InsuranceServiceImpl implements InsuranceService {
             insurance.setPrice(price);
             insurance.setLastUpdated(OffsetDateTime.now());
 
-            return insurance;
+            return insuranceRepository.save(insurance);
         });
         return insuranceData.map(insuranceMapper::toDto).orElse(null);
     }
 
     @Override
-    public void delete(UUID id) {
+    public int delete(UUID id) {
+        Insurance insurance = validation.getEntry(insuranceRepository.findById(id));
+        if (insurance == null) {
+            return 404;
+        }
         insuranceRepository.deleteById(id);
+        return insuranceRepository.findById(id).isPresent() ? 500 : 204;
     }
 }

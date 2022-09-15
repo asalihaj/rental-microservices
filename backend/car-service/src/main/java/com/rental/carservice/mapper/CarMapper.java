@@ -20,7 +20,7 @@ public interface CarMapper {
     @Mapping(source = "category.name", target = "category")
     @Mapping(source = "fuelType.name", target = "fuelType")
     @Mapping(source = "group.equipments", target = "equipments")
-    @Mapping(source = "user.username", target = "company")
+    @Mapping(source = "company.username", target = "company")
     CarViewDto toDto(Car car);
 
     @Mapping(source = "model.brand.name", target = "brand")
@@ -28,7 +28,7 @@ public interface CarMapper {
     @Mapping(source = "category.name", target = "category")
     @Mapping(source = "fuelType.name", target = "fuelType")
     @Mapping(source = "group.equipments", target = "equipments")
-    @Mapping(source = "user.username", target = "company")
+    @Mapping(source = "company.username", target = "company")
     CarDetailsDto toDetailsDto(Car car);
 
     CarOfferDto toRangeDto(CarViewDto carViewDto);

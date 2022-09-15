@@ -8,8 +8,8 @@ import java.util.UUID;
 
 public interface ReviewService {
     List<ReviewDto> getAll(UUID carId);
-//    List<ReviewDto> getAllFromUser(UUID userId);
+    List<ReviewDto> getAllFromClient(UUID clientId);
     ReviewDto create(ReviewCreationDto reviewDto);
     ReviewDto edit(UUID id, ReviewDto reviewDto);
-    void delete(UUID id);
+    int delete(UUID id);
 }
